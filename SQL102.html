@@ -7,83 +7,140 @@
     <body>
         <h1>SQL102:학생정보삽입</h1>
         <p>
-          /**<br>
+    package com.mycompany.sql102;<br>
+<br>
+ import java.io.IOException;<br>
+ import java.util.Formatter;<br>
+ import java.util.Iterator;<br>
+ import java.util.List;<br>
+ import java.util.Scanner;<br>
+/**<br>
  * @프로그램:StudentDao.java<br>
  * @author:학번:2016214378 이름:박민우<br>
- * @날짜: 2021.10.09<br>
- * 질의401:<br>
- * sql-401:<br>
+ * @날짜: 2021.10.16<br>
+ * 질의: 모든 학생을 찾으세요.<br>
+ * sql-401:select*from student;<br>
  */<br>
+public class SQL102 {<br>
+String sql="select * from student";<br>
+String sqlh="모든 학생을 찾으세요.";<br>
+StudentDao sd = new StudentDao();<br>
 <br>
-package com.mycompany.sql102;<br>
 <br>
-import java.sql.*;<br>
-import java.util.ArrayList;<br>
-import java.util.List;<br>
-<br>
-public class StudentDao {<br>
-    Connection con;<br>
-    ResultSet rs;<br>
-    PreparedStatement pstmt=null;<br>
-    Statement stmt=null;<br>
-    String sql;<br>
-    DBCon dbc = new DBCon();<br>
+ //학생의 모든 속성 이름(제목) 출력<br>
+ public void printStudentTitle(StudentTitleBean stb){<br>
+    System.out.printf("%10s ", stb.getIdTitle());<br>
+    System.out.printf("%-20s", stb.getNameTitle());<br>
+    System.out.printf("%-20s", stb.getDeptNameTitle());<br>
+    System.out.printf("%10s\n", stb.getTotCredTitle());<br>
+ }<br>
+  // 표준 출력(화면)<br>
+ public void printAllStudent(){<br>
+ List<StudentBean> list;<br>
  <br>
- // 모든 학생 투플 검색 후 리스트를 만들어서 반환 '18.11.01<br>
- //sql = select * from student;<br>
- public List makeListAllStudents(String sql){<br>
-    List list = new ArrayList();<br>
-        try {<br>
-            rs = dbc.getRS(sql);<br>
-            while(rs.next()){<br>
-                 StudentBean sb = new StudentBean();<br>
-                 sb.setId(rs.getString(1));<br>
-                 sb.setName(rs.getString(2));<br>
-                 sb.setDeptName(rs.getString(3));<br>
-                 sb.setTotCred(rs.getInt(4));<br>
-                list.add(sb);<br>
-         }<br>
-     }catch(SQLException e){<br>
- System.out.println("SQL State: "+e.getSQLState());<br>
-    }<br>
-    return list;<br>
-}<br>
-public StudentTitleBean makeStudentTitle(String sql){<br>
-    ResultSetMetaData rsmd;<br>
-    pstmt = dbc.getPstmt(sql);<br>
-    StudentTitleBean stb = new StudentTitleBean();<br>
-    try {<br>
-        rs = pstmt.executeQuery();<br>
-        rsmd = rs.getMetaData();<br>
-        stb.setIdTitle(rsmd.getColumnName(1));<br>
-        stb.setNameTitle(rsmd.getColumnName(2));<br>
-        stb.setDeptNameTitle(rsmd.getColumnName(3));<br>
-        stb.setTotCredTitle(rsmd.getColumnName(4));<br>
-    }catch(SQLException ex){<br>
-        System.out.println("SQL State: "+ex.getSQLState());<br>
-        }<br>
-    return stb;<br>
-    }<br>
-    //한 학생 삽입<br>
-    public int insertAStudent(StudentBean sb){<br>
-int n=0;<br>
-String sql="insert into student values(?,?,?,?)";<br>
-//System.out.println(sb.getId()+": "+sb.getName());<br>
-try {<br>
-pstmt = dbc.getPstmt(sql);<br>
-pstmt.setString(1, sb.getId());<br>
-pstmt.setString(2, sb.getName());<br>
-pstmt.setString(3, sb.getDeptName());<br>
-pstmt.setInt(4, sb.getTotCred());<br>
+    System.out.format(" 학번: 2016214378 이름: 박민우 날짜: 2021.10.07\n");<br>
+    System.out.format(" 질의102: "+sqlh+"\n");<br>
+    System.out.format(" sql_102: "+sql+"\n");<br>
+    System.out.format(" 실행 결과: \n\n");<br>
+ <br>
+ StudentTitleBean stb = sd.makeStudentTitle(sql);<br>
+ printStudentTitle(stb);<br>
+ <br>
+StudentBean sb=null;<br>
+list = sd.makeListAllStudents(sql);<br>
+Iterator it = list.iterator();<br>
 <br>
-n = pstmt.executeUpdate();<br>
-} catch (SQLException ex){<br>
-System.out.println("SQL insert SQLState: "+ex.getSQLState());<br>
+while(it.hasNext()){<br>
+sb = (StudentBean)it.next();<br>
+    System.out.format("%10s ", sb.getId());<br>
+    System.out.format("%-20s", sb.getName());<br>
+    System.out.format("%-20s", sb.getDeptName());<br>
+    System.out.format("%10d", sb.getTotCred());<br>
+    System.out.format("\n");<br>
 }<br>
-return n;<br>
+    System.out.println();<br>
+}<br>
+<br>
+//파일 출력<br>
+public void writeAllStudent(){<br>
+Formatter output;<br>
+List<StudentBean> list;<br>
+<br>
+StudentBean sb = null;<br>
+list = sd.makeListAllStudents(sql);<br>
+Iterator it = list.iterator();<br>
+    try {<br>
+        output = new Formatter("e:/sql_100/sql_101.txt");<br>
+        output.format("\n 파일이름: sql-101.txt(font:letter gothic std)\n");<br>
+        output.format(" 학번: 2016214378 이름: 박민우 날짜: 2021.10.16\n");<br>
+        output.format(" 질의102: "+sqlh+"\n");<br>
+        output.format(" sql_102: "+sql+"\n");<br>
+        output.format(" 실행결과: \n\n");<br>
+<br>
+StudentTitleBean stb = sd.makeStudentTitle(sql);<br>
+        output.format("%10s ", stb.getIdTitle());<br>
+        output.format("%-20s", stb.getNameTitle());<br>
+        output.format("%-20s", stb.getDeptNameTitle());<br>
+        output.format("%10s\n", stb.getTotCredTitle());<br>
+    <br>
+    while(it.hasNext()){<br>
+sb = (StudentBean)it.next();<br>
+        output.format("%10s ", sb.getId());<br>
+        output.format("%-20s", sb.getName());<br>
+        output.format("%-20s", sb.getDeptName());<br>
+        output.format("%10d", sb.getTotCred());<br>
+        output.format("\n");<br>
+}<br>
+        output.close();<br>
+ System.out.println("\n파일에 쓰기 성공.");<br>
+ } catch (IOException e) {<br>
+ System.out.println("\n파일에 쓰기 오류.");<br>
     }<br>
-}<br
-      
+ }<br>
+ //학생 자료 입력<br>
+ public StudentBean getStudentData(){<br>
+ StudentBean sb = new StudentBean();<br>
+ Scanner scan = new Scanner(System.in);<br>
+ String id;<br>
+ int totCred;<br>
+    System.out.println("학번: ");<br>
+    id = scan.next();<br>
+ //System.out.println("입력된 학번: "+id+" "+id.length());<br>
+sb.setId(id);<br>
+    System.out.println("이름: ");<br>
+sb.setName(scan.next());<br>
+    System.out.println("학과이름: ");<br>
+sb.setDeptName(scan.next());<br>
+    System.out.println("학점: ");<br>
+sb.setTotCred(scan.nextInt());<br>
+return sb;<br>
+}<br>
+//입력된 값 출력<br>
+public void printStudentBean(StudentBean sb){<br>
+    System.out.println("입력된 학번: "+sb.getId());<br>
+    System.out.println("입력된 이름: "+sb.getName());<br>
+    System.out.println("입력된 학과이름: "+sb.getDeptName());<br>
+    System.out.println("입력된 학점: "+sb.getTotCred());<br>
+ }<br>
+// 삽입 절차<br>
+public void insertion(){ <br>
+StudentBean sb = getStudentData(); //학생 자료 입력<br>
+printStudentBean(sb); //입력된 학생 자료의 표준 출력<br>
+printAllStudent(); //삽입 전 학생 관계 내용<br>
+int n = sd.insertAStudent(sb); //학생 관계에 삽입<br>
+if (n==1) System.out.println("inserted successfully");<br>
+else System.out.println("insert failure");<br>
+printAllStudent(); //삽입 후 학생 관계 내용<br>
+}<br>
+<br>
+ public static void main(String[] args) {<br>
+ SQL102 sql_102 = new SQL102();<br>
+ //sql_101.printAllStudent();<br>
+ //sql_101.writeAllStudent();<br>
+sql_102.insertion();<br>
+    }<br>
+}<br>
+<br>
       </p>
            
     </body>
