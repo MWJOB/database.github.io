@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>SQL103:학생정보삭제</h1>
+        <img src="delete.PNG" width="350" height="500" alt="결과창" />
+        <p>소스코드 목록</p>
+        <p><a href="https://mwjob.github.io/database.github.io/SQL103">소스코드SQL103.java</a> </p>
+        <p><a href="https://mwjob.github.io/database.github.io/DeleteStudentDao">소스코드StudentDao.java</a> </p>      
+    </body>
+</html>
