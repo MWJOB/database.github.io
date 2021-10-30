@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SQL103</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>SQL103:학생정보삭제</h1>
+        <p>
+package com.mycompany.sql103;<br>
+<br>
+ import java.io.IOException;<br>
+ import java.util.Formatter;<br>
+ import java.util.Iterator;<br>
+ import java.util.List;<br>
+ import java.util.Scanner;<br>
+/**<br>
+ * @프로그램:StudentDao.java<br>
+ * @author:학번:2016214378 이름:박민우<br>
+ * @날짜: 2021.10.19<br>
+ * 질의: 삭제.<br>
+ * sql-1031:delete student where id;<br>
+ */<br>
+public class SQL103 {<br>
+String sql="select * from student";<br>
+String sqlh="모든 학생을 찾으세요.";<br>
+StudentDao sd = new StudentDao();<br>
+<br>
+<br>
+ //학생의 모든 속성 이름(제목) 출력<br>
+ public void printStudentTitle(StudentTitleBean stb){<br>
+    System.out.printf("%10s ", stb.getIdTitle());<br>
+    System.out.printf("%-20s", stb.getNameTitle());<br>
+    System.out.printf("%-20s", stb.getDeptNameTitle());<br>
+    System.out.printf("%10s\n", stb.getTotCredTitle());<br>
+ }<br>
+  // 표준 출력(화면)<br>
+ public void printAllStudent(){<br>
+ List<StudentBean> list;<br>
+ <br>
+    System.out.format(" 학번: 2016214378 이름: 박민우 날짜: 2021.10.07\n");<br>
+    System.out.format(" 질의103: "+"학번을 입력받아 학생 데이터 테이블을 삭제하세요"+"\n");<br>
+    System.out.format(" sql_103: "+"select * from student"+"\n");<br>
+    System.out.format(" 실행 결과: \n\n");<br>
+ <br>
+ StudentTitleBean stb = sd.makeStudentTitle(sql);<br>
+ printStudentTitle(stb);<br>
+ <br>
+StudentBean sb=null;<br>
+list = sd.makeListAllStudents(sql);<br>
+Iterator it = list.iterator();<br>
+<br>
+while(it.hasNext()){<br>
+sb = (StudentBean)it.next();<br>
+    System.out.format("%10s ", sb.getId());<br>
+    System.out.format("%-20s", sb.getName());<br>
+    System.out.format("%-20s", sb.getDeptName());<br>
+    System.out.format("%10d", sb.getTotCred());<br>
+    System.out.format("\n");<br>
+}<br>
+    System.out.println();<br>
+}<br>
+<br>
+//파일 출력<br>
+public void writeAllStudent(){<br>
+Formatter output;<br>
+List<StudentBean> list;<br>
+<br>
+StudentBean sb = null;<br>
+list = sd.makeListAllStudents(sql);<br>
+Iterator it = list.iterator();<br>
+    try {<br>
+        output = new Formatter("e:/sql_100/sql_101.txt");<br>
+        output.format("\n 파일이름: sql-103.txt(font:letter gothic std)\n");<br>
+        output.format(" 학번: 2016214378 이름: 박민우 날짜: 2021.10.16\n");<br>
+        output.format(" 질의103: "+sqlh+"\n");<br>
+        output.format(" sql_103: "+sql+"\n");<br>
+        output.format(" 실행결과: \n\n");<br>
+<br>
+StudentTitleBean stb = sd.makeStudentTitle(sql);<br>
+        output.format("%10s ", stb.getIdTitle());<br>
+        output.format("%-20s", stb.getNameTitle());<br>
+        output.format("%-20s", stb.getDeptNameTitle());<br>
+        output.format("%10s\n", stb.getTotCredTitle());<br>
+    <br>
+    while(it.hasNext()){<br>
+sb = (StudentBean)it.next();<br>
+        output.format("%10s ", sb.getId());<br>
+        output.format("%-20s", sb.getName());<br>
+        output.format("%-20s", sb.getDeptName());<br>
+        output.format("%10d", sb.getTotCred());<br>
+        output.format("\n");<br>
+}<br>
+        output.close();<br>
+ System.out.println("\n파일에 쓰기 성공.");<br>
+ } catch (IOException e) {<br>
+ System.out.println("\n파일에 쓰기 오류.");<br>
+    }<br>
+ }<br>
+ //학생 자료 입력<br>
+ public StudentBean getStudentData(){<br>
+ StudentBean sb = new StudentBean();<br>
+ Scanner scan = new Scanner(System.in);<br>
+ String id;<br>
+ int totCred;<br>
+    System.out.println("학번: ");<br>
+    id = scan.next();<br>
+ //System.out.println("입력된 학번: "+id+" "+id.length());<br>
+sb.setId(id);<br>
+return sb;<br>
+}<br>
+//입력된 값 출력<br>
+public void printStudentBean(StudentBean sb){<br>
+    System.out.println("입력된 학번: "+sb.getId());<br>
+ }<br>
+// 삽입 절차<br>
+public void deletion(){ <br>
+StudentBean sb = getStudentData(); //학생 자료 입력<br>
+printStudentBean(sb); //입력된 학생 자료의 표준 출력<br>
+printAllStudent(); //삽입 전 학생 관계 내용<br>
+int n = sd.DeleteAStudent(sb); //학생 관계에 삭제<br>
+if (n==1) System.out.println("Delete successfully");<br>
+else System.out.println("Delete failure");<br>
+printAllStudent(); //삽입 후 학생 관계 내용<br>
+}<br>
+<br>
+ public static void main(String[] args) {<br>
+ SQL103 sql_103 = new SQL103();<br>
+ //sql_101.printAllStudent();<br>
+ //sql_101.writeAllStudent();<br>
+sql_103.deletion();<br>
+    }<br>
+}<br>
+<br>
+      </p>
+           
+    </body>
+</html>
