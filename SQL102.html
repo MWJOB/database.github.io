@@ -39,8 +39,8 @@ StudentDao sd = new StudentDao();<br>
  List<StudentBean> list;<br>
  <br>
     System.out.format(" 학번: 2016214378 이름: 박민우 날짜: 2021.10.07\n");<br>
-    System.out.format(" 질의102: "+sqlh+"\n");<br>
-    System.out.format(" sql_102: "+sql+"\n");<br>
+    System.out.format(" 질의102: "+"학생의 정보를 입력받아 데이터를 삽입하세요."+"\n");<br>
+    System.out.format(" sql_102: "+"insert into student values(?,?,?,?)"+"\n");<br>
     System.out.format(" 실행 결과: \n\n");<br>
  <br>
  StudentTitleBean stb = sd.makeStudentTitle(sql);<br>
