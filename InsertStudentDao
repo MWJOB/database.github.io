@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SQL102:InsertStudentDao</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>SQL102:InsertStudentDao</h1>
+        <p>
+          /**<br>
+ * @프로그램:StudentDao.java<br>
+ * @author:학번:2016214378 이름:박민우<br>
+ * @날짜: 2021.10.09<br>
+ * 질의401:<br>
+ * sql-401:<br>
+ */<br>
+<br>
+package com.mycompany.sql102;<br>
+<br>
+import java.sql.*;<br>
+import java.util.ArrayList;<br>
+import java.util.List;<br>
+<br>
+public class StudentDao {<br>
+    Connection con;<br>
+    ResultSet rs;<br>
+    PreparedStatement pstmt=null;<br>
+    Statement stmt=null;<br>
+    String sql;<br>
+    DBCon dbc = new DBCon();<br>
+ <br>
+ // 모든 학생 투플 검색 후 리스트를 만들어서 반환 '18.11.01<br>
+ //sql = select * from student;<br>
+ public List makeListAllStudents(String sql){<br>
+    List list = new ArrayList();<br>
+        try {<br>
+            rs = dbc.getRS(sql);<br>
+            while(rs.next()){<br>
+                 StudentBean sb = new StudentBean();<br>
+                 sb.setId(rs.getString(1));<br>
+                 sb.setName(rs.getString(2));<br>
+                 sb.setDeptName(rs.getString(3));<br>
+                 sb.setTotCred(rs.getInt(4));<br>
+                list.add(sb);<br>
+         }<br>
+     }catch(SQLException e){<br>
+ System.out.println("SQL State: "+e.getSQLState());<br>
+    }<br>
+    return list;<br>
+}<br>
+public StudentTitleBean makeStudentTitle(String sql){<br>
+    ResultSetMetaData rsmd;<br>
+    pstmt = dbc.getPstmt(sql);<br>
+    StudentTitleBean stb = new StudentTitleBean();<br>
+    try {<br>
+        rs = pstmt.executeQuery();<br>
+        rsmd = rs.getMetaData();<br>
+        stb.setIdTitle(rsmd.getColumnName(1));<br>
+        stb.setNameTitle(rsmd.getColumnName(2));<br>
+        stb.setDeptNameTitle(rsmd.getColumnName(3));<br>
+        stb.setTotCredTitle(rsmd.getColumnName(4));<br>
+    }catch(SQLException ex){<br>
+        System.out.println("SQL State: "+ex.getSQLState());<br>
+        }<br>
+    return stb;<br>
+    }<br>
+    //한 학생 삽입<br>
+    public int insertAStudent(StudentBean sb){<br>
+int n=0;<br>
+String sql="insert into student values(?,?,?,?)";<br>
+//System.out.println(sb.getId()+": "+sb.getName());<br>
+try {<br>
+pstmt = dbc.getPstmt(sql);<br>
+pstmt.setString(1, sb.getId());<br>
+pstmt.setString(2, sb.getName());<br>
+pstmt.setString(3, sb.getDeptName());<br>
+pstmt.setInt(4, sb.getTotCred());<br>
+<br>
+n = pstmt.executeUpdate();<br>
+} catch (SQLException ex){<br>
+System.out.println("SQL insert SQLState: "+ex.getSQLState());<br>
+}<br>
+return n;<br>
+    }<br>
+}<br
+      
+      </p>
+           
+    </body>
+</html>
