@@ -1,0 +1,5 @@
+com\mycompany\sql103\SQL101.class
+com\mycompany\sql103\StudentDao.class
+com\mycompany\sql103\StudentBean.class
+com\mycompany\sql103\DBCon.class
+com\mycompany\sql103\StudentTitleBean.class
