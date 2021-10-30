@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>StudentTitleBean</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>SQL401:StudentTitleBean</h1>
+        <p>
+        /**<br>
+ 4 * @author 학번:2021123123 이름: 홍길동<br>
+ 5 * @날짜 : 2021.09.20<br>
+ 6 * Student relation title<br>
+ 7 */<br>
+package com.mycompany.sql401_web_1;<br>
+<br>
+/**<br>
+ *<br>
+ * @author Park<br>
+ */<br>
+public class StudentTitleBean {<br>
+<br>
+    public String getIdTitle() {<br>
+        return idTitle;<br>
+    }<br>
+<br>
+    public void setIdTitle(String idTitle) {<br>
+        this.idTitle = idTitle;<br>
+    }<br>
+<br>
+    public String getNameTitle() {<br>
+        return nameTitle;<br>
+    }<br>
+<br>
+    public void setNameTitle(String nameTitle) {<br>
+        this.nameTitle = nameTitle;<br>
+    }<br>
+<br>
+    public String getDeptNameTitle() {<br>
+        return deptNameTitle;<br>
+    }<br>
+<br>
+    public void setDeptNameTitle(String deptNameTitle) {<br>
+        this.deptNameTitle = deptNameTitle;<br>
+    }<br>
+<br>
+    public String getTotCredTitle() {<br>
+        return totCredTitle;<br>
+    }<br>
+<br>
+    public void setTotCredTitle(String totCredTitle) {<br>
+        this.totCredTitle = totCredTitle;<br>
+    }<br>
+ String idTitle;<br>
+ String nameTitle;<br>
+ String deptNameTitle;<br>
+ String totCredTitle;<br>
+<br>
+}<br>
+        </p>
+    </body>
+</html>
